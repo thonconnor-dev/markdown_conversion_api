@@ -3,7 +3,7 @@
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-CREATE TABLE IF NOT EXISTS jobs (
+CREATE TABLE IF NOT EXISTS conversion_jobs (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     original_filename TEXT NOT NULL,
     storage_path TEXT NOT NULL,
@@ -18,7 +18,16 @@ CREATE TABLE IF NOT EXISTS jobs (
     )
 );
 
-CREATE INDEX IF NOT EXISTS idx_jobs_status ON jobs (status);
+CREATE TABLE IF NOT EXISTS jobs_history (
+   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+   job_id UUID NOT NULL,
+   status TEXT NOT NULL DEFAULT 'queued',
+   error_detail TEXT,
+   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+   FOREIGN KEY (job_id) REFERENCES conversion_jobs(id) 
+)
+
+CREATE INDEX IF NOT EXISTS idx_jobs_status ON conversion_jobs (status);
 
 CREATE OR REPLACE FUNCTION set_updated_at()
 RETURNS TRIGGER AS $$
