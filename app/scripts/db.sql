@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS jobs_history (
    error_detail TEXT,
    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
    FOREIGN KEY (job_id) REFERENCES conversion_jobs(id) 
-)
+);
 
 CREATE INDEX IF NOT EXISTS idx_jobs_status ON conversion_jobs (status);
 
@@ -40,6 +40,6 @@ $$ LANGUAGE plpgsql;
 DROP TRIGGER IF EXISTS trg_jobs_updated_at ON jobs;
 
 CREATE TRIGGER trg_jobs_updated_at
-BEFORE UPDATE ON jobs
+BEFORE UPDATE ON conversion_jobs
 FOR EACH ROW
 EXECUTE FUNCTION set_updated_at();
