@@ -1,7 +1,7 @@
 
 from datetime import datetime
 from typing import Optional
-from app.schemas.base import Base
+from app.models.base import Base
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql import text
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID, TIMESTAMP

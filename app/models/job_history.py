@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import Optional
 
 from sqlalchemy import ForeignKey, Text
-from app.schemas.base import Base
+from app.models.base import Base
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.dialects.postgresql import UUID as PGUUID, TIMESTAMP
 from uuid import UUID
