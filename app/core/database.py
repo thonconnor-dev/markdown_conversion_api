@@ -1,6 +1,6 @@
 
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, Session
 
 from app.core.config import settings
 
@@ -9,8 +9,11 @@ engine = create_engine(settings.DATABASE_URL)
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
 
 def get_db():
-    db = SessionLocal()
+    db: Session = SessionLocal()
     try:
         yield db
+        db.commit
+    except:
+        raise
     finally:
         db.close()
